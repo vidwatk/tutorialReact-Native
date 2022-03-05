@@ -1,89 +1,119 @@
-  /**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
-  Text,
   View,
-  ScrollView,
-  RefreshControl,
-  TextInput, 
-  Button, 
+  Text,
+  TextInput,
+  Button,
   TouchableOpacity,
-  TouchableHighlight
+  TouchableHighlight,
+  TouchableWithoutFeedback,
+  Pressable,
+  Alert,
+  ToastAndroid,
 } from 'react-native';
 
-const App = () => { 
-  const[name, setName] = useState("");
-  const[submitted, SetSubmitted] = useState(false);
-  const onPressHandler = () => { 
-      SetSubmitted(!submitted);
+const App = () => {
 
+  const [name, SetName] = useState('');
+  const [submitted, SetSubmitted] = useState(false);
+  const onPressHandler = () => {
+    if(name.length > 3){
+    SetSubmitted(!submitted);
+  }else{
+      // Alert.alert("warning", "Add more than 3 characters", [
+      //   {
+      //     text: "okayy",
+      //    onPress: () => console.warn("okay is pressed"),
+      //     style: "destructive"
+      //   },
+      //   {
+      //     text: "not okay",
+      //    onPress: () => console.warn("not okay is pressed"),
+      //     style: "cancel"
+      //   }
+        
+      // ], {cancelable: true, onDismiss: ()=> console.warn("Alert Dismissed")})
+      ToastAndroid.showWithGravity("Add more than 3 characters",
+      ToastAndroid.LONG,
+      ToastAndroid.CENTER
+      ) 
+    }
   }
+
   return (
     <View style={styles.body}>
-      <Text style={styles.text}>Please write your name:</Text>
+      <Text style={styles.text}>
+        Please write your name:
+      </Text>
       <TextInput
-       style={styles.input}
-       placeholder ="eg: Vidwat"
-       onChangeText={(value)=> setName(value)}
-       
+        style={styles.input}
+        placeholder='e.g. John'
+        onChangeText={(value) => SetName(value)}
       />
-     {/*<Button title={submitted ? 'Clear' : 'Submit' }  
-      onPress={onPressHandler}
-      color="#00f"
-      />*/}
-      <TouchableHighlight
-       onPress={onPressHandler}
-       style={styles.button}
-       activeOpacity={0.76} 
-       underlayColor="yellow"
+      {/* <Button
+        title={submitted ? 'Clear' : 'Submit'}
+        onPress={onPressHandler}
+        color='#00f'
+      /> */}
+      {/* <TouchableWithoutFeedback
+        onPress={onPressHandler}
       >
-        <Text style={styles.text}>{submitted ? 'Clear' : 'Submit' }</Text>
-      </TouchableHighlight>
-      {submitted? 
-      <Text style={styles.text}>Reg complete: {name}</Text>
-    : null}
-      
+        <View style={styles.button}>
+          <Text style={styles.text}>
+            {submitted ? 'Clear' : 'Submit'}
+          </Text>
+        </View>
+      </TouchableWithoutFeedback> */}
+      <Pressable
+        onPress={onPressHandler}
+        hitSlop={{ top: 10, bottom: 10, right: 10, left: 10 }}
+        android_ripple={{color:'#00f'}}
+        style={({ pressed }) => [
+          { backgroundColor: pressed ? '#dddddd' : '#00ff00' },
+          styles.button
+        ]}
+      >
+        <Text style={styles.text}>
+          {submitted ? 'Clear' : 'Submit'}
+        </Text>
+      </Pressable>
+      {submitted ?
+        <Text style={styles.text}>
+          You are registered as {name}
+        </Text>
+        :
+        null
+      }
     </View>
-    
   );
 };
 
 const styles = StyleSheet.create({
-  body: {  
+  body: {
     flex: 1,
-    backgroundColor: "white",
-    alignItems: "center"
-
+    backgroundColor: '#ffffff',
+    alignItems: 'center',
   },
   text: {
-    color: "black",
+    color: '#000000',
     fontSize: 20,
-    textTransform: "uppercase"
+    margin: 10,
   },
-  input:{
+  input: {
+    width: 200,
     borderWidth: 1,
-    width:200,
-    borderColor: "#555",
-    textAlign: "center", 
-    borderRadius: 7,
+    borderColor: '#555',
+    borderRadius: 5,
+    textAlign: 'center',
     fontSize: 20,
-    margin: 20,
+    marginBottom: 10,
   },
   button: {
-    backgroundColor: "orange",
     width: 150,
-    height: 45,
-    elevation: 32,
-    alignItems: "center"
-  }
+    height: 50,
+    alignItems: 'center',
+  },
 });
 
 export default App;
