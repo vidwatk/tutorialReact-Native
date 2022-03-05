@@ -13,11 +13,19 @@ import {
   View,
   ScrollView,
   RefreshControl,
-  TextInput
+  TextInput, 
+  Button, 
+  TouchableOpacity,
+  TouchableHighlight
 } from 'react-native';
 
 const App = () => { 
   const[name, setName] = useState("");
+  const[submitted, SetSubmitted] = useState(false);
+  const onPressHandler = () => { 
+      SetSubmitted(!submitted);
+
+  }
   return (
     <View style={styles.body}>
       <Text style={styles.text}>Please write your name:</Text>
@@ -25,12 +33,24 @@ const App = () => {
        style={styles.input}
        placeholder ="eg: Vidwat"
        onChangeText={(value)=> setName(value)}
-       multiline
-       keyboardType='visible-password'
-       maxLength={24}
-       secureTextEntry     //to type in the pwds or sensitive data
+       
       />
-      <Text style={styles.text}>Your name is: {name}</Text>
+     {/*<Button title={submitted ? 'Clear' : 'Submit' }  
+      onPress={onPressHandler}
+      color="#00f"
+      />*/}
+      <TouchableHighlight
+       onPress={onPressHandler}
+       style={styles.button}
+       activeOpacity={0.76} 
+       underlayColor="yellow"
+      >
+        <Text style={styles.text}>{submitted ? 'Clear' : 'Submit' }</Text>
+      </TouchableHighlight>
+      {submitted? 
+      <Text style={styles.text}>Reg complete: {name}</Text>
+    : null}
+      
     </View>
     
   );
@@ -44,17 +64,25 @@ const styles = StyleSheet.create({
 
   },
   text: {
-    color: "#00008B",
+    color: "black",
     fontSize: 20,
     textTransform: "uppercase"
   },
   input:{
     borderWidth: 1,
     width:200,
-    border: "#555",
+    borderColor: "#555",
     textAlign: "center", 
     borderRadius: 7,
-    fontSize: 20
+    fontSize: 20,
+    margin: 20,
+  },
+  button: {
+    backgroundColor: "orange",
+    width: 150,
+    height: 45,
+    elevation: 32,
+    alignItems: "center"
   }
 });
 
