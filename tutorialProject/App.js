@@ -12,18 +12,19 @@ import {
   Text,
   View,
   ScrollView,
-  RefreshControl
+  RefreshControl,
+  FlatList
 } from 'react-native';
 
 const App = () => { 
 const [name, setName] = useState("Style Test")
 
 const [Items, setItems] = useState([
-  {key: 5, item: "Item 5"},
-  {key: 1, item: "Item 1"},
-  {key: 2, item: "Item 2"},
-  {key: 3, item: "Item 3"},
-  {key: 4, item: "Item 4"},
+  {key: '5', name: "Item 5"},
+  {key: '1', name: "Item 1"},
+  {key: '2', name: "Item 2"},
+  {key: '3', name: "Item 3"},
+  {key: '4', name: "Item 4"},
 ]);
 const[Refreshing, setRefreshing] = useState(false)
 const onRefresh = () => {
@@ -32,21 +33,29 @@ const onRefresh = () => {
   setRefreshing(false)
 }
   return (
-    <ScrollView 
-    style= {styles.body}
-    refreshControl= {<RefreshControl
-      refreshing = {Refreshing}
-      onRefresh={onRefresh}/>}> 
-      {
-        Items.map ((object)=>{
-          return(
-          <View  style={styles.item} key={object.key}>
-            <Text style={styles.text} >{object.item}</Text>
-          </View>
-          )
-        })
-      }
-    </ScrollView>
+    <FlatList
+      data={Items}
+      renderItem={({item}) => (
+        <View  style={styles.item}>
+             <Text style={styles.text} >{item.name}</Text>
+       </View>
+      )}
+    />  
+    // <ScrollView 
+    // style= {styles.body}
+    // refreshControl= {<RefreshControl
+    //   refreshing = {Refreshing}
+    //   onRefresh={onRefresh}/>}> 
+    //   {
+    //     Items.map ((object)=>{
+    //       return(
+    //       <View  style={styles.item} key={object.key}>
+    //         <Text style={styles.text} >{object.item}</Text>
+    //       </View>
+    //       )
+    //     })
+    //   }
+    // </ScrollView>
 
   );
 };
