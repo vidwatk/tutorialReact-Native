@@ -12,63 +12,49 @@ import {
   Text,
   View,
   ScrollView,
-  RefreshControl
+  RefreshControl,
+  TextInput
 } from 'react-native';
 
 const App = () => { 
-const [name, setName] = useState("Style Test")
-
-const [Items, setItems] = useState([
-  {key: 5, item: "Item 5"},
-  {key: 1, item: "Item 1"},
-  {key: 2, item: "Item 2"},
-  {key: 3, item: "Item 3"},
-  {key: 4, item: "Item 4"},
-]);
-const[Refreshing, setRefreshing] = useState(false)
-const onRefresh = () => {
-  setRefreshing(true);
-  setItems([...Items, {key:69, item: "Item 6"}])
-  setRefreshing(false)
-}
+  const[name, setName] = useState("");
   return (
-    <ScrollView 
-    style= {styles.body}
-    refreshControl= {<RefreshControl
-      refreshing = {Refreshing}
-      onRefresh={onRefresh}/>}> 
-      {
-        Items.map ((object)=>{
-          return(
-          <View  style={styles.item} key={object.key}>
-            <Text style={styles.text} >{object.item}</Text>
-          </View>
-          )
-        })
-      }
-    </ScrollView>
-
+    <View style={styles.body}>
+      <Text style={styles.text}>Please write your name:</Text>
+      <TextInput
+       style={styles.input}
+       placeholder ="eg: Vidwat"
+       onChangeText={(value)=> setName(value)}
+       multiline
+       keyboardType='visible-password'
+       maxLength={24}
+       secureTextEntry     //to type in the pwds or sensitive data
+      />
+      <Text style={styles.text}>Your name is: {name}</Text>
+    </View>
+    
   );
 };
 
 const styles = StyleSheet.create({
   body: {  
     flex: 1,
-    backgroundColor: "black",
+    backgroundColor: "white",
+    alignItems: "center"
 
   },
   text: {
     color: "#00008B",
-    fontSize: 50,
-    fontWeight: "800",
-    fontStyle: "italic",
+    fontSize: 20,
     textTransform: "uppercase"
   },
-  item: {
-    backgroundColor: "#87CEEB",
-    justifyContent: 'center',
-    fontSize: 50,
-    margin: 10
+  input:{
+    borderWidth: 1,
+    width:200,
+    border: "#555",
+    textAlign: "center", 
+    borderRadius: 7,
+    fontSize: 20
   }
 });
 
