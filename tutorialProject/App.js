@@ -11,46 +11,64 @@ import {
   StyleSheet,
   Text,
   View,
-  Button
+  ScrollView,
+  RefreshControl
 } from 'react-native';
 
 const App = () => { 
-const [name, setName] = useState("first")
-const[session, setSession] = useState({number: 6, title:"state"})
-const[current, setCurrent] = useState(true)
-const[counter, setCounter] = useState(0)
+const [name, setName] = useState("Style Test")
 
-const onClickHandler = () => {
-  setName("Second Update")
-  setSession({number: 7, title: "some random shit"})
-  setCurrent(false)
-  setCounter(counter + 1)
+const [Items, setItems] = useState([
+  {key: 5, item: "Item 5"},
+  {key: 1, item: "Item 1"},
+  {key: 2, item: "Item 2"},
+  {key: 3, item: "Item 3"},
+  {key: 4, item: "Item 4"},
+]);
+const[Refreshing, setRefreshing] = useState(false)
+const onRefresh = () => {
+  setRefreshing(true);
+  setItems([...Items, {key:69, item: "Item 6"}])
+  setRefreshing(false)
 }
   return (
-    <View style= {styles.body}> 
-      <Text style={styles.text}> {name} </Text>
-      <Text style={styles.text}>This is session number {session.number} and about {session.title}</Text>
-      <Text style={styles.text}> {current ? "current Session" : "Next session"} </Text>
-      <Text style={styles.text}> This has been clicked {counter} </Text>
-      <Button title="Update State" onPress={onClickHandler}></Button>
-    </View>
+    <ScrollView 
+    style= {styles.body}
+    refreshControl= {<RefreshControl
+      refreshing = {Refreshing}
+      onRefresh={onRefresh}/>}> 
+      {
+        Items.map ((object)=>{
+          return(
+          <View  style={styles.item} key={object.key}>
+            <Text style={styles.text} >{object.item}</Text>
+          </View>
+          )
+        })
+      }
+    </ScrollView>
 
   );
 };
 
 const styles = StyleSheet.create({
-  body: {
-    backgroundColor: "#87CEEB",
-    alignItems: "center",
-    justifyContent: "center",
+  body: {  
     flex: 1,
+    backgroundColor: "black",
+
   },
   text: {
     color: "#00008B",
-    fontSize: 20,
+    fontSize: 50,
     fontWeight: "800",
     fontStyle: "italic",
-    margin: 10 
+    textTransform: "uppercase"
+  },
+  item: {
+    backgroundColor: "#87CEEB",
+    justifyContent: 'center',
+    fontSize: 50,
+    margin: 10
   }
 });
 
