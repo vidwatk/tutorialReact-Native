@@ -11,7 +11,7 @@ import {
 export default function ScreenA({navigation}) {
 
     const onPressHandler = () => {
-      navigation.navigate("Screen_B")
+      navigation.navigate("Screen_B", {ItemName: "Item from screen A", ItemId: 12})
     }
     return(
       <View style={styles.body}>
